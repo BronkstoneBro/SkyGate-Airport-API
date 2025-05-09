@@ -1,3 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import AirplaneViewSet, AirplaneTypeViewSet
 
-urlpatterns = []
+router = DefaultRouter()
+router.register(r"types", AirplaneTypeViewSet)
+router.register(r"airplanes", AirplaneViewSet)
+
+urlpatterns = [
+    path("", include(router.urls)),
+]
