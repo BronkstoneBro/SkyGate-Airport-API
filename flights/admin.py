@@ -1,5 +1,6 @@
 from django.contrib import admin
 from flights.models import Flight
+from flights.models import Route
 
 
 @admin.register(Flight)
@@ -19,3 +20,9 @@ class FlightAdmin(admin.ModelAdmin):
         "route__arrival__name",
     )
     ordering = ("-departure_time",)
+
+
+@admin.register(Route)
+class RouteAdmin(admin.ModelAdmin):
+    list_display = ("id", "departure", "arrival")
+    search_fields = ("departure__name", "arrival__name")
