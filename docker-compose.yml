@@ -9,7 +9,7 @@ services:
       - "8000:8000"
     depends_on:
       db:
-        condition: service_healthy  # Wait for the db to be healthy
+        condition: service_healthy
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/skygate_db
       - DEBUG=True

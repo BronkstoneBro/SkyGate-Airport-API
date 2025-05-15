@@ -1,11 +1,11 @@
 from django.test import TestCase
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from .models import Flight, Crew
-from .serializers import FlightSerializer, CrewSerializer
+
 from airports.models import Airport, Route
 from airplanes.models import Airplane, AirplaneType
 

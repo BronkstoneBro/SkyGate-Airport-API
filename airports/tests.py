@@ -151,7 +151,6 @@ class AirportAPITests(APITestCase):
         self.assertEqual(Airport.objects.count(), 0)
 
 
-# Modified Route API Tests to account for the URL pattern issue
 class RouteAPITests(TestCase):
     """Tests for Route model operations
 
@@ -160,7 +159,6 @@ class RouteAPITests(TestCase):
     """
 
     def setUp(self):
-        # Create airports for testing
         self.source_airport = Airport.objects.create(
             name="Singapore Changi Airport", closest_big_city="Singapore"
         )
@@ -177,13 +175,12 @@ class RouteAPITests(TestCase):
 
     def test_create_route(self):
         """Test creating a new route via ORM"""
-        # Create another airport for the new route
+
         new_destination = Airport.objects.create(
             name="Seoul Incheon International Airport",
             closest_big_city="Seoul",
         )
 
-        # Create a new route
         new_route = Route.objects.create(
             source=self.source_airport,
             destination=new_destination,
