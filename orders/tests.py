@@ -7,7 +7,6 @@ from django.utils import timezone
 from datetime import timedelta
 
 from .models import Order
-from .serializers import OrderSerializer
 from tickets.models import Ticket
 from flights.models import Flight, Crew
 from airports.models import Airport, Route
