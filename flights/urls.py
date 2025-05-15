@@ -3,8 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import CrewViewSet, FlightViewSet
 
 router = DefaultRouter()
-router.register(r"crew", CrewViewSet)
-router.register(r"flights", FlightViewSet)
+router.register(r"crew", CrewViewSet, basename="crew")
+router.register(r"flights", FlightViewSet, basename="flight")
 
 urlpatterns = [
     path("", include(router.urls)),
