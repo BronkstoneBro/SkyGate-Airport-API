@@ -30,12 +30,14 @@ class TicketViewSet(viewsets.ModelViewSet):
     ordering_fields = ["flight__departure_time", "passenger_name"]
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Ticket.objects.none()
+            
         user = self.request.user
-        return (
-            Ticket.objects.all()
-            if user.is_staff
-            else Ticket.objects.filter(orders__user=user).distinct()
-        )
+        if user.is_staff:
+            return Ticket.objects.all()
+        else:
+            return Ticket.objects.filter(orders__user=user).distinct()
 
     def get_flight_or_404(self, flight_id):
         return get_object_or_404(Flight, pk=flight_id)
