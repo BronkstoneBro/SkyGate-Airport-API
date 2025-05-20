@@ -4,6 +4,7 @@ from drf_yasg import openapi
 
 token_obtain_pair_schema = swagger_auto_schema(
     operation_description="Obtain JWT token pair (access and refresh tokens)",
+    methods=['post'],
     responses={
         200: openapi.Response(
             description="Token pair obtained successfully",
@@ -21,6 +22,7 @@ token_obtain_pair_schema = swagger_auto_schema(
 
 token_refresh_schema = swagger_auto_schema(
     operation_description="Refresh JWT access token using refresh token",
+    methods=['post'],
     responses={
         200: openapi.Response(
             description="Access token refreshed successfully",
@@ -37,6 +39,7 @@ token_refresh_schema = swagger_auto_schema(
 
 token_verify_schema = swagger_auto_schema(
     operation_description="Verify JWT token validity",
+    methods=['post'],
     responses={
         200: openapi.Response(
             description="Token is valid", examples={"application/json": {}}

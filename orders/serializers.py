@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import Order
 from tickets.serializers import TicketSerializer
 
@@ -12,6 +13,10 @@ class OrderSerializer(serializers.ModelSerializer):
     )
     user_email = serializers.EmailField(source="user.email", read_only=True)
     username = serializers.CharField(source="user.username", read_only=True)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        default=serializers.CurrentUserDefault(),
+    )
 
     class Meta:
         model = Order
@@ -25,8 +30,9 @@ class OrderSerializer(serializers.ModelSerializer):
             "total_price",
             "status",
             "created_at",
+            "updated_at",
         ]
-        read_only_fields = ["id", "user", "created_at"]
+        read_only_fields = ["id", "user", "created_at", "updated_at"]
 
     def validate_tickets(self, tickets):
         """

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from tickets.models import Ticket
 
 
@@ -7,18 +7,33 @@ class Order(models.Model):
     STATUS_CHOICES = [
         ("pending", "Pending"),
         ("paid", "Paid"),
-        ("canceled", "Canceled"),
+        ("cancelled", "Cancelled"),
     ]
 
     user = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="orders"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="orders",
     )
     tickets = models.ManyToManyField(Ticket, related_name="orders")
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="pending"
+    total_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="pending",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
-        return f"Order #{self.pk} by {self.user}"
+        return f"Order {self.id} - {self.user.username} - {self.status}"
+
+    class Meta:
+        ordering = ["-created_at"]
