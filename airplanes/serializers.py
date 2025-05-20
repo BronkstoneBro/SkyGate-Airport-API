@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Airplane, AirplaneType
+from airplanes.models import Airplane, AirplaneType
 
 
 class AirplaneTypeSerializer(serializers.ModelSerializer):

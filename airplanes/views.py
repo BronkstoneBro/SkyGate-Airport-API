@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Airplane, AirplaneType
-from .serializers import AirplaneSerializer, AirplaneTypeSerializer
+from airplanes.models import Airplane, AirplaneType
+from airplanes.serializers import AirplaneSerializer, AirplaneTypeSerializer
 
 
 class AirplaneTypeViewSet(viewsets.ModelViewSet):

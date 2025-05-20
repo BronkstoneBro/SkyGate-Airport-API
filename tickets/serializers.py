@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ticket
+from tickets.models import Ticket
 import string
 from django.core.exceptions import ValidationError
 from flights.serializers import FlightSerializer

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Airport, Route
-from .serializers import AirportSerializer, RouteSerializer
+from airports.models import Airport, Route
+from airports.serializers import AirportSerializer, RouteSerializer
 
 
 class AirportViewSet(viewsets.ModelViewSet):

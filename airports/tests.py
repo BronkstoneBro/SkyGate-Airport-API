@@ -1,8 +1,8 @@
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-from .models import Airport, Route
-from .serializers import AirportSerializer, RouteSerializer
+from airports.models import Airport, Route
+from airports.serializers import AirportSerializer, RouteSerializer
 
 
 class AirportModelTests(TestCase):

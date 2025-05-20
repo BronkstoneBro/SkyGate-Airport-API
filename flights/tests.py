@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-from .models import Flight, Crew
+from flights.models import Flight, Crew
 
 from airports.models import Airport, Route
 from airplanes.models import Airplane, AirplaneType

@@ -8,7 +8,6 @@ from django.utils import timezone
 from datetime import timedelta
 
 from .models import Ticket
-from .serializers import TicketSerializer
 from flights.models import Flight, Crew
 from airports.models import Airport, Route
 from airplanes.models import Airplane, AirplaneType

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Crew, Flight
-from .serializers import CrewSerializer, FlightSerializer
+from flights.models import Crew, Flight
+from flights.serializers import CrewSerializer, FlightSerializer
 
 
 class CrewViewSet(viewsets.ModelViewSet):
