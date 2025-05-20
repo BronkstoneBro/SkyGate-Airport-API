@@ -16,6 +16,7 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(),
         default=serializers.CurrentUserDefault(),
+        required=False,
     )
 
     class Meta:
@@ -33,6 +34,12 @@ class OrderSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
         read_only_fields = ["id", "user", "created_at", "updated_at"]
+
+    def get_fields(self):
+        fields = super().get_fields()
+        if getattr(self, 'swagger_fake_view', False):
+            fields['user'].read_only = True
+        return fields
 
     def validate_tickets(self, tickets):
         """
