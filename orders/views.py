@@ -2,13 +2,12 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 
 from orders.models import Order
 from orders.serializers import OrderSerializer
+from orders.schemas import list_orders_schema, create_order_schema, cancel_order_schema
 from skygate_airport_api.permissions import IsOwnerOrReadOnly
 
 
@@ -39,47 +38,18 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    @swagger_auto_schema(
-        operation_description="List orders. Users see their own; admins see all.",
-        responses={
-            200: OrderSerializer(many=True),
-            401: "Authentication required",
-        },
-    )
+    @list_orders_schema
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(
-        operation_description="Create a new order. Authenticated user is set as owner.",
-        responses={
-            201: OrderSerializer,
-            400: "Validation error",
-            401: "Authentication required",
-        },
-    )
+    @create_order_schema
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
     def can_cancel(self, order):
         return order.status == "pending"
 
-    @swagger_auto_schema(
-        operation_description="Cancel an order and its tickets. Only owner can cancel.",
-        responses={
-            200: openapi.Response(
-                description="Order canceled successfully",
-                examples={
-                    "application/json": {
-                        "status": "Order canceled successfully"
-                    }
-                },
-            ),
-            400: "Only pending orders can be canceled",
-            401: "Authentication required",
-            403: "Permission denied",
-            404: "Order not found",
-        },
-    )
+    @cancel_order_schema
     @action(detail=True, methods=["post"])
     def cancel(self, request, pk=None):
         order = self.get_object()
