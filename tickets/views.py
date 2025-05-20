@@ -11,8 +11,7 @@ from skygate_airport_api.permissions import (
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
+from .schemas import create_ticket_schema, update_ticket_schema, available_seats_schema
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -69,38 +68,15 @@ class TicketViewSet(viewsets.ModelViewSet):
             "seats": seats,
         }
 
-    @swagger_auto_schema(
-        operation_description="Create a new ticket. Users can only create tickets for themselves.",
-        responses={
-            201: TicketSerializer,
-            400: "Bad request",
-            403: "Forbidden",
-        },
-    )
+    @create_ticket_schema
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    @swagger_auto_schema(
-        operation_description="Update a ticket. Users can only update their tickets.",
-        responses={
-            200: TicketSerializer,
-            400: "Bad request",
-            403: "Forbidden",
-            404: "Not found",
-        },
-    )
+    @update_ticket_schema
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    @swagger_auto_schema(
-        operation_description="Get available seats for a flight",
-        responses={
-            200: openapi.Response(
-                description="Available seats info",
-            ),
-            404: "Flight not found",
-        },
-    )
+    @available_seats_schema
     @action(
         detail=False,
         methods=["get"],
