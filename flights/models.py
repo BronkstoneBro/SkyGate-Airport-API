@@ -53,5 +53,8 @@ class Flight(models.Model):
 
         if self.airplane.capacity < self.route.minimum_capacity:
             raise ValidationError(
-                f"Airplane capacity {self.airplane.capacity} is less than the minimum capacity required for this route"
+                (
+                    f"Airplane capacity {self.airplane.capacity} is less than "
+                    f"the minimum capacity required for this route"
+                )
             )
