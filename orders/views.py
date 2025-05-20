@@ -27,12 +27,14 @@ class OrderViewSet(viewsets.ModelViewSet):
     ordering_fields = ["created_at", "total_price"]
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Order.objects.none()
+            
         user = self.request.user
-        return (
-            Order.objects.all()
-            if user.is_staff
-            else Order.objects.filter(user=user)
-        )
+        if user.is_staff:
+            return Order.objects.all()
+        else:
+            return Order.objects.filter(user=user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
